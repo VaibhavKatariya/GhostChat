@@ -108,9 +108,9 @@ Make sure you have:
 ### Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ghost-chat.git
+git clone https://github.com/VaibhavKatariya/GhostChat.git
 
-cd ghost-chat
+cd GhostChat
 ```
 
 ### Install dependencies
