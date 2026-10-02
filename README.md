@@ -1,36 +1,206 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 👻 GhostChat
 
-## Getting Started
+### Self-Destructing Real-Time Chat
 
-First, run the development server:
+GhostChat is a real-time chat application built for temporary conversations. Users can create a private chat room, share the room with others, and communicate in real time.
+
+Once a room expires, its conversation disappears instead of being kept as permanent chat history.
+
+## ✨ Features
+
+- 💬 **Real-time messaging** — Send and receive messages instantly.
+- 🔐 **Private chat rooms** — Conversations are isolated inside individual rooms.
+- 👻 **Self-destructing chats** — Rooms automatically disappear after their lifetime.
+- ⏳ **Room expiration** — Temporary rooms use an expiration timer.
+- 🔗 **Shareable rooms** — Share a room link with other participants.
+- 🗑️ **Temporary data** — Chat data is stored only for the lifetime of the room.
+- 📱 **Responsive UI** — Designed to work across desktop and mobile devices.
+- 🎨 **Modern interface** — Built with Tailwind CSS.
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| **Next.js 16** | Full-stack React framework |
+| **React** | User interface |
+| **TypeScript** | Type-safe development |
+| **Tailwind CSS** | Styling and responsive UI |
+| **Redis** | Temporary chat and room data |
+| **Redis TTL** | Automatic expiration of temporary data |
+
+## 🧠 How It Works
+
+GhostChat is built around the concept of **ephemeral conversations**.
+
+When a user creates a chat room, the application generates a unique room and stores its temporary state in Redis.
+
+```text
+                 Create Room
+                     │
+                     ▼
+              Generate Room ID
+                     │
+                     ▼
+              Store in Redis
+                     │
+                     ▼
+                Set TTL
+                     │
+                     ▼
+              Share Room Link
+                     │
+                     ▼
+             Users Join Chat
+                     │
+                     ▼
+            Real-Time Messages
+                     │
+                     ▼
+               TTL Expires
+                     │
+                     ▼
+              Room Disappears
+```
+
+### Redis TTL
+
+Redis provides a **Time To Live (TTL)** mechanism that allows temporary data to automatically expire.
+
+Instead of manually maintaining a cleanup process for every chat room, the application can associate an expiration time with the room's stored data.
+
+This makes Redis a natural fit for temporary chat sessions.
+
+## 🏗️ Architecture
+
+```text
+┌───────────────┐
+│     Client    │
+│   Next.js UI  │
+└───────┬───────┘
+        │
+        │ API / Real-Time Events
+        ▼
+┌────────────────────┐
+│     Next.js App    │
+│  Server/API Layer  │
+└─────────┬──────────┘
+          │
+          ▼
+┌────────────────────┐
+│       Redis        │
+│                    │
+│  Rooms             │
+│  Messages          │
+│  Expiration / TTL  │
+└────────────────────┘
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have:
+
+- Node.js installed
+- A Redis instance
+- npm, pnpm, yarn, or Bun
+
+### Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/ghost-chat.git
+
+cd ghost-chat
+```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+Or:
+
+```bash
+pnpm install
+```
+
+### Configure environment variables
+
+Create a `.env.local` file and add the Redis configuration required by the application.
+
+```env
+REDIS_URL=your_redis_url
+REDIS_TOKEN=your_redis_token
+```
+
+> Use the exact environment variable names required by your implementation.
+
+### Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open **http://localhost:3000** in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+ghost-chat/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── ...
+│   │   └── page.tsx
+│   ├── components/
+│   └── ...
+├── public/
+├── .env.local
+├── next.config.ts
+├── package.json
+├── tsconfig.json
+└── README.md
+```
 
-## Learn More
+## 🔥 Why I Built This
 
-To learn more about Next.js, take a look at the following resources:
+I built GhostChat to explore how **real-time communication** and **temporary data storage** can be combined in a modern full-stack application.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project gave me hands-on experience with:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js 16 App Router
+- React and TypeScript
+- Real-time communication
+- Redis
+- Redis TTL and data expiration
+- Temporary session management
+- API development
+- State management
+- Responsive UI development
 
-## Deploy on Vercel
+## 🔒 Privacy Note
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+GhostChat is designed for temporary conversations, but disappearing messages should not be considered a guarantee of complete privacy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+A participant can still copy, screenshot, or otherwise save a message before the room expires.
+
+## 🚧 Future Improvements
+
+- [ ] Typing indicators
+- [ ] Online/offline presence
+- [ ] Read receipts
+- [ ] Custom room expiration times
+- [ ] Password-protected rooms
+- [ ] Message-level expiration
+- [ ] Image/file sharing
+- [ ] End-to-end encryption
+- [ ] Rate limiting and abuse protection
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+**GhostChat** — conversations that don't stay forever. 👻
